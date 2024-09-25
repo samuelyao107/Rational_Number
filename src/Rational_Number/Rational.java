@@ -4,12 +4,14 @@ public class Rational {
     public int numerator;
     public int denominator;
 
-    public Rational(int numerator, int denominator){
-        this.numerator = numerator/ gcd(numerator, denominator);
-        this.denominator = denominator/gcd(numerator, denominator);
+    public Rational(int numerator, int denominator) throws UndefinedRational {
+        if(denominator == 0) throw new UndefinedRational();
+        int gcd = gcd(numerator, denominator);
+        this.numerator = numerator/ gcd;
+        this.denominator = denominator/gcd;
     }
 
-    private static int gcd(int a, int b) {
+    public static int gcd(int a, int b) {
         for(int i = Math.min(a, b); i > 0; i--){
             if(a % i == 0 && b % i == 0) return i;
         }
@@ -18,6 +20,7 @@ public class Rational {
 
     @Override
     public String toString(){
+
         return "Numerator: "+ this.numerator+" and Denomintor "+ this.denominator;
     }
 
@@ -34,21 +37,38 @@ public class Rational {
                 && Double.compare(denominator, r.denominator) == 0;
         }
 
-        public static Rational Add(Rational r1, Rational r2){
-          int numerator = (r1.numerator * r2.denominator + r1.denominator * r2.numerator);
-          int denominator = r1.denominator * r2.denominator;
-          return new Rational(numerator, denominator);
+        public Rational Add( Rational r2){
+         try{
+             int numerator = (this.numerator * r2.denominator + this.denominator * r2.numerator);
+             int denominator = this.denominator * r2.denominator;
+             return new Rational(numerator, denominator);
+         }catch(UndefinedRational err){
+             System.out.println(err.getError());
+             return null;
+         }
+
         }
 
-        public static Rational Multiply(Rational r1, Rational r2){
-           int numerator = r1.numerator * r2.numerator;
-           int denominator = r1.denominator * r2.denominator;
+        public Rational Multiply(Rational r2){
+           try{
+               int numerator = this.numerator * r2.numerator;
+               int denominator = this.denominator * r2.denominator;
+               return new Rational(numerator,denominator);
+           }catch(UndefinedRational err){
+               System.out.println(err.getError());
+               return null;
+           }
 
-           return new Rational(numerator,denominator);
         }
 
-        public static Rational Opposed(Rational r){
-          return new Rational(-r.numerator, r.denominator);
+        public Rational Opposed(){
+        try{
+            return new Rational(-this.numerator, this.denominator);
+        }catch(UndefinedRational err){
+            System.out.println(err.getError());
+            return null;
+        }
+
         }
 
 

@@ -1,16 +1,29 @@
 import Rational_Number.Rational;
+import Rational_Number.UndefinedRational;
+import Rational_Number.WithPGCD;
 
 
 public class Main {
     public static void main(String[] args) {
+        try{
+            Rational r1 = new Rational(1,2);
+            Rational r2 = new Rational(2,3);
+            Rational r3 = r1.Add(r2);
+            String p=  r3.toString();
+            System.out.println(p);
 
-        Rational r1 = new Rational(1,2);
-        Rational r2 = new Rational(2,0);
+            Rational r4 = new WithPGCD(1,4);
+            WithPGCD r4WithPGCD = (WithPGCD) r4;
+            System.out.println(r4WithPGCD.pgcd);
 
-        Rational r3 = Rational.Add(r1,r2);
+        }catch(UndefinedRational err){
+            System.out.println(err.getError());
 
-       String p=  r3.toString();
-       System.out.println(p);
+        }
+
+
+
+
 
     }
 }
